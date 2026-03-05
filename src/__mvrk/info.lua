@@ -30,22 +30,23 @@ local function set_status(level, status)
 end
 
 local function send_analytics(address)
-	if os.getenv("DISABLE_TEZBAKE_ANALYTICS") == "true" or am.app.get_configuration("DISABLE_ANALYTICS", false) then
-		return
-	end
+	return
+	-- if os.getenv("DISABLE_MAVBAKE_ANALYTICS") == "true" or am.app.get_configuration("DISABLE_ANALYTICS", false) then
+	-- 	return
+	-- end
 
-	local ANALYTICS_URL = "https://analytics.tez.capital/bake"
+	-- local ANALYTICS_URL = "https://analytics.tez.capital/bake"
 
-	local _analyticsCmd = string.interpolate(
-		[[net.RestClient:new("${ANALYTICS_URL}", { timeout = 2 }):safe_post({ bakerId = "${bakerId}", version = "${version}" }); os.exit(0);]],
-		{ bakerId = address, version = am.app.get_version(), ANALYTICS_URL = ANALYTICS_URL }
-	)
-	proc.spawn("eli", { "-e", _analyticsCmd }, { wait = false, stdio = "ignore" })
+	-- local _analyticsCmd = string.interpolate(
+	-- 	[[net.RestClient:new("${ANALYTICS_URL}", { timeout = 2 }):safe_post({ bakerId = "${bakerId}", version = "${version}" }); os.exit(0);]],
+	-- 	{ bakerId = address, version = am.app.get_version(), ANALYTICS_URL = ANALYTICS_URL }
+	-- )
+	-- proc.spawn("eli", { "-e", _analyticsCmd }, { wait = false, stdio = "ignore" })
 end
 
 local function collect_service_info()
-	local serviceManager = require "__xtz.service-manager"
-	local _services = require "__xtz.services"
+	local serviceManager = require "__mvrk.service-manager"
+	local _services = require "__mvrk.services"
 
 	for k, v in pairs(_services.allNames) do
 		if type(v) ~= "string" then goto CONTINUE end
@@ -70,7 +71,7 @@ local function load_public_keys()
 	---@type table<string, PublicKey>
 	local public_keys = {}
 
-	local ok, pubkey_hashs_file = fs.safe_read_file(path.combine(_homedir, ".tezos-signer/public_key_hashs"))
+	local ok, pubkey_hashs_file = fs.safe_read_file(path.combine(_homedir, ".mavryk-signer/public_key_hashs"))
 	if not ok then
 		return false, "failed to read public_key_hashs file"
 	end
@@ -86,7 +87,7 @@ local function load_public_keys()
 		pkhs[name] = pkh
 	end
 
-	local ok, pubkeys_file = fs.safe_read_file(path.combine(_homedir, ".tezos-signer/public_keys"))
+	local ok, pubkeys_file = fs.safe_read_file(path.combine(_homedir, ".mavryk-signer/public_keys"))
 	if not ok then
 		return false, "failed to read public_keys file"
 	end
@@ -157,7 +158,7 @@ local function collect_wallet_info()
 	local connected_ledgers = {}
 	local output = _proc.exitcode == 0 and _proc.stdoutStream:read("a") or "failed"
 	for ledger_id, backing_app_info, device, address in output:gmatch("## Ledger `(%S+-%S+-%S+)`%s+(.-)Ledger%s+(.-) at %[([%d%-%.]+:%d%.%d)%]") do
-		local version = backing_app_info:match("Found%s+a%s+Tezos%s+Baking%s+(%d+%.%d+%.%d+)")
+		local version = backing_app_info:match("Found%s+a%s+Mavryk%s+Baking%s+(%d+%.%d+%.%d+)")
 		if not version then
 			set_status("error", "Baking app not found or not active on ledger: " .. ledger_id)
 		end

@@ -1,7 +1,7 @@
 {
-    "id": "xtz.signer",
+    "id": "mvrk.signer",
     "version" : "0.25.0+20.3",
     "dependencies": [
-        { "id":"xtz.base" }
+        { "id":"mvrk.base" }
     ]
 }

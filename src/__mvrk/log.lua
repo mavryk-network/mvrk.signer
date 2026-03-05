@@ -1,7 +1,7 @@
 local _options, _, args, _ = ...
 
 local _args = table.map(args, function(v) return v.arg end)
-local _services = require("__xtz.services")
+local _services = require("__mvrk.services")
 
 local _toCheck = table.values(_services.allNames)
 if #_args > 0 then

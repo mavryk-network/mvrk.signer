@@ -7,8 +7,8 @@ local function setup(options)
 
 	local homedir = path.combine(os.cwd(), "data")
 
-	local serviceManager = require "__xtz.service-manager"
-	local services = require "__xtz.services"
+	local serviceManager = require "__mvrk.service-manager"
+	local services = require "__mvrk.services"
 	local ok, status, _ = serviceManager.safe_get_service_status(services.signerServiceId)
 	ami_assert(ok and status ~= "running", services.signerServiceId .. " is already running. Please stop it to import keys...",
 		EXIT_APP_INTERNAL_ERROR)

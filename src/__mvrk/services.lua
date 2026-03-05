@@ -1,24 +1,24 @@
 local appId = am.app.get("id")
-local signerServiceId = appId .. "-xtz-signer"
+local signerServiceId = appId .. "-mvrk-signer"
 
 local possibleResidue = {}
 
 local signerServices = {
-	[signerServiceId] = am.app.get_model("SIGNER_SERVICE_FILE", "__xtz/assets/signer")
+	[signerServiceId] = am.app.get_model("SIGNER_SERVICE_FILE", "__mvrk/assets/signer")
 }
 local tunnelServices = {
-	[appId .. "-xtz-signer-tunnel"] = "__xtz/assets/signer-tunnel",
-	[appId .. "-xtz-node-tunnel"] = "__xtz/assets/node-tunnel"
+	[appId .. "-mvrk-signer-tunnel"] = "__mvrk/assets/signer-tunnel",
+	[appId .. "-mvrk-node-tunnel"] = "__mvrk/assets/node-tunnel"
 }
 
 local signerServiceNames = {}
 for k, _ in pairs(signerServices) do
-	signerServiceNames[k:sub((#(appId .. "-xtz-") + 1))] = k
+	signerServiceNames[k:sub((#(appId .. "-mvrk-") + 1))] = k
 end
 
 local tunnelServiceNames = {}
 for k, _ in pairs(tunnelServices) do
-	tunnelServiceNames[k:sub((#(appId .. "-xtz-") + 1))] = k
+	tunnelServiceNames[k:sub((#(appId .. "-mvrk-") + 1))] = k
 end
 
 local all = util.clone(signerServices)
@@ -36,7 +36,7 @@ end
 
 -- includes potential residues
 local function _remove_all_services()
-	local serviceManager = require"__xtz.service-manager"
+	local serviceManager = require"__mvrk.service-manager"
 
 	local all = util.merge_arrays(table.values(signerServiceNames), table.values(tunnelServices))
 	all = util.merge_arrays(all, possibleResidue)

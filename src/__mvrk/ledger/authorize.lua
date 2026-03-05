@@ -7,8 +7,8 @@ local function setup(options)
 
 	log_info("Authorizing ledger for baking...")
 
-	local serviceManager = require "__xtz.service-manager"
-	local _services = require("__xtz.services")
+	local serviceManager = require "__mvrk.service-manager"
+	local _services = require("__mvrk.services")
 	local _ok, _status, _ = serviceManager.safe_get_service_status(_services.signerServiceId)
 
 	local alias = "baker"

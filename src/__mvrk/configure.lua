@@ -2,8 +2,8 @@ local _ok, _error = fs.safe_mkdirp("data")
 ami_assert(_ok, "Failed to create data directory - " .. tostring(_error) .. "!")
 
 local backend = am.app.get_configuration("backend", os.getenv("ASCEND_SERVICES") ~= nil and "ascend" or "systemd")
-local serviceManager = require"__xtz.service-manager"
-local services = require"__xtz.services"
+local serviceManager = require"__mvrk.service-manager"
+local services = require"__mvrk.services"
 services.remove_all_services() -- cleanup past install
 
 for k, v in pairs(services.all) do
@@ -17,4 +17,4 @@ for k, v in pairs(services.all) do
 end
 
 -- adjust data directory permissions
-require"__xtz.util".reset_datadir_permissions()
+require"__mvrk.util".reset_datadir_permissions()

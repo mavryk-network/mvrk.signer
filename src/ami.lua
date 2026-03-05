@@ -1,10 +1,10 @@
 return {
-    title = 'XTZ signer',
+    title = 'MVRK signer',
     commands = {
         info = {
             description = "ami 'info' sub command",
             summary = 'Prints runtime info and status of the app',
-            action = '__xtz/info.lua',
+            action = '__mvrk/info.lua',
             options = {
                 ["services"] = {
                     description = "Prints info about services",
@@ -42,7 +42,7 @@ return {
                 end
 
                 if _noOptions or _options.app then
-                    am.execute_extension('__xtz/download-binaries.lua', { contextFailExitCode = EXIT_SETUP_ERROR })
+                    am.execute_extension('__mvrk/download-binaries.lua', { contextFailExitCode = EXIT_SETUP_ERROR })
                 end
 
                 if _noOptions and not _options['no-validate'] then
@@ -50,23 +50,23 @@ return {
                 end
 
                 if _noOptions or _options.configure then
-                    am.execute_extension('__xtz/create_user.lua', { contextFailExitCode = EXIT_APP_CONFIGURE_ERROR })
+                    am.execute_extension('__mvrk/create_user.lua', { contextFailExitCode = EXIT_APP_CONFIGURE_ERROR })
                     am.app.render()
-                    am.execute_extension('__xtz/configure.lua', { contextFailExitCode = EXIT_APP_CONFIGURE_ERROR })
+                    am.execute_extension('__mvrk/configure.lua', { contextFailExitCode = EXIT_APP_CONFIGURE_ERROR })
                 end
-                log_success('XTZ signer setup complete.')
+                log_success('MVRK signer setup complete.')
             end
         },
         start = {
             description = "ami 'start' sub command",
-            summary = 'Starts the XTZ signer',
-            action = '__xtz/start.lua',
+            summary = 'Starts the MVRK signer',
+            action = '__mvrk/start.lua',
             contextFailExitCode = EXIT_APP_START_ERROR
         },
         stop = {
             description = "ami 'stop' sub command",
-            summary = 'Stops the XTZ signer',
-            action = '__xtz/stop.lua',
+            summary = 'Stops the MVRK signer',
+            action = '__mvrk/stop.lua',
             contextFailExitCode = EXIT_APP_STOP_ERROR
         },
         validate = {
@@ -78,8 +78,8 @@ return {
                     return
                 end
                 -- //TODO: Validate platform
-                ami_assert(proc.EPROC, 'xtz signer AMI requires extra api - eli.proc.extra', EXIT_MISSING_API)
-                ami_assert(fs.EFS, 'xtz signer AMI requires extra api - eli.fs.extra', EXIT_MISSING_API)
+                ami_assert(proc.EPROC, 'mvrk signer AMI requires extra api - eli.proc.extra', EXIT_MISSING_API)
+                ami_assert(fs.EFS, 'mvrk signer AMI requires extra api - eli.fs.extra', EXIT_MISSING_API)
 
                 ami_assert(type(am.app.get('id')) == 'string', 'id not specified!', EXIT_INVALID_CONFIGURATION)
                 ami_assert(
@@ -93,12 +93,12 @@ return {
                     'Invalid app type!',
                     EXIT_INVALID_CONFIGURATION
                 )
-                log_success('XTZ signer configuration validated.')
+                log_success('MVRK signer configuration validated.')
             end
         },
         signer = {
             description = "ami 'signer' sub command",
-            summary = 'Passes any passed arguments directly to tezos-signer.',
+            summary = 'Passes any passed arguments directly to mavryk-signer.',
             index = 8,
             type = 'external',
             exec = 'bin/signer',
@@ -109,7 +109,7 @@ return {
         },
         client = {
             description = "ami 'signer' sub command",
-            summary = 'Passes any passed arguments directly to tezos-client.',
+            summary = 'Passes any passed arguments directly to mavryk-client.',
             index = 9,
             type = 'external',
             exec = 'bin/client',
@@ -122,7 +122,7 @@ return {
             description = "ami 'register-key' sub command",
             summary = 'Registers key as delegate.',
             index = 11,
-            action = '__xtz/register_key.lua',
+            action = '__mvrk/register_key.lua',
             contextFailExitCode = EXIT_APP_INTERNAL_ERROR
         },
         ['setup-ledger'] = {
@@ -173,7 +173,7 @@ return {
                 }
             },
             index = 12,
-            action = '__xtz/setup_ledger.lua',
+            action = '__mvrk/setup_ledger.lua',
             contextFailExitCode = EXIT_APP_INTERNAL_ERROR
         },
         ['setup-soft-wallet'] = {
@@ -200,7 +200,7 @@ return {
                 }
             },
             index = 12,
-            action = '__xtz/setup_soft_wallet.lua',
+            action = '__mvrk/setup_soft_wallet.lua',
             contextFailExitCode = EXIT_APP_INTERNAL_ERROR
         },
         ['get-key-hash'] = {
@@ -214,7 +214,7 @@ return {
                 }
             },
             action = function(_options, _, _, _)
-                local _ok, _pkhFile = fs.safe_read_file("data/.tezos-client/public_key_hashs")
+                local _ok, _pkhFile = fs.safe_read_file("data/.mavryk-client/public_key_hashs")
                 assert(_ok, "Failed to read 'public_key_hashes' file!")
                 local _ok, _pkh = hjson.safe_parse(_pkhFile)
                 assert(_ok, "Failed to parse 'public_key_hashes' file!")
@@ -249,7 +249,7 @@ return {
                 }
             },
             type = "no-command",
-            action = '__xtz/log.lua',
+            action = '__mvrk/log.lua',
             contextFailExitCode = EXIT_APP_INTERNAL_ERROR
         },
         ['deposits-limit'] = {
@@ -261,18 +261,18 @@ return {
                     type = "boolean"
                 },
                 ["set"] = {
-                    description = "Set deposit limit to specific amount of tez",
+                    description = "Set deposit limit to specific amount of mav",
                     type = "number"
                 }
             },
-            action = '__xtz/deposits_limit.lua',
+            action = '__mvrk/deposits_limit.lua',
             contextFailExitCode = EXIT_APP_INTERNAL_ERROR
         },
         about = {
             description = "ami 'about' sub command",
             summary = 'Prints information about application',
             action = function(_options, _, _, _)
-                local _ok, _aboutFile = fs.safe_read_file('__xtz/about.hjson')
+                local _ok, _aboutFile = fs.safe_read_file('__mvrk/about.hjson')
                 ami_assert(_ok, 'Failed to read about file!', EXIT_APP_ABOUT_ERROR)
 
                 local _ok, _about = hjson.safe_parse(_aboutFile)
@@ -289,7 +289,7 @@ return {
             index = 7,
             action = function(_options, _, _, _)
                 if _options.all then
-                    am.execute_extension('__xtz/remove-all.lua', { contextFailExitCode = EXIT_RM_ERROR })
+                    am.execute_extension('__mvrk/remove-all.lua', { contextFailExitCode = EXIT_RM_ERROR })
                     am.app.remove()
                     log_success('Application removed.')
                 else

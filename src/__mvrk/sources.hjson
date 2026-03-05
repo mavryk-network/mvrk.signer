@@ -1,0 +1,11 @@
+// SOURCE: https://gitlab.com/mavryk-network/mavryk-protocol/-/releases
+{
+    linux-x86_64: {
+        client: https://gitlab.com/mavryk-network/mavryk-protocol/-/package_files/228464805/download
+        signer: https://gitlab.com/mavryk-network/mavryk-protocol/-/package_files/228464802/download
+    }
+    linux-arm64: {
+        client: https://gitlab.com/mavryk-network/mavryk-protocol/-/package_files/228464874/download
+        signer: https://gitlab.com/mavryk-network/mavryk-protocol/-/package_files/228464866/download
+    }
+}

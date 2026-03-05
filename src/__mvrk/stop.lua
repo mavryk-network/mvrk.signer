@@ -1,5 +1,5 @@
-local serviceManager = require"__xtz.service-manager"
-local services = require"__xtz.services"
+local serviceManager = require"__mvrk.service-manager"
+local services = require"__mvrk.services"
 
 log_info("Stopping signer services... this may take few minutes.")
 for _, service in pairs(services.allNames) do

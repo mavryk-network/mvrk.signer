@@ -1,13 +1,13 @@
 local _options = ...
--- tezos-client set deposit limit for <delegate> to <deposit_limit>
--- tezos-client unset deposit limit for <delegate>
+-- mavryk-client set deposit limit for <delegate> to <deposit_limit>
+-- mavryk-client unset deposit limit for <delegate>
 
 local _homedir = path.combine(os.cwd(), "data")
 ami_assert((_options.set and not _options.unset) or (not _options.set and _options.unset), "You can not set and unset at the same time!")
 ami_assert(_options.set or _options.unset, "You have to specify whether to set or unset!")
 
-local serviceManager = require"__xtz.service-manager"
-local _services = require("__xtz.services")
+local serviceManager = require"__mvrk.service-manager"
+local _services = require("__mvrk.services")
 local _ok, _status, _ = serviceManager.safe_get_service_status(_services.signerServiceId)
 
 local _args = { "set", "deposits", "limit", "for", "baker", "to", _options.set }

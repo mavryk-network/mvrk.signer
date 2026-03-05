@@ -1,0 +1,8 @@
+{
+    "Description": '''
+MVRK signer - app providing signer for mavryk baking (both remote and standalone).
+'''
+    Links: [
+        { website: "https://mavryk.network/" }
+    ]
+}

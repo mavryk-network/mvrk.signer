@@ -11,7 +11,7 @@ end
 
 local _downlaodUrls = nil
 
-local _downloadLinks = hjson.parse(fs.read_file("__xtz/sources.hjson"))
+local _downloadLinks = hjson.parse(fs.read_file("__mvrk/sources.hjson"))
 
 if _platform.OS == "unix" then
 	_downlaodUrls = _downloadLinks["linux-x86_64"]
@@ -37,7 +37,7 @@ am.app.set_model({
 	{merge = true, overwrite = true}
 )
 
-local _services = require("__xtz.services")
+local _services = require("__mvrk.services")
 local _wantedBinaries = table.keys(_services.signerServiceNames)
 table.insert(_wantedBinaries, "client")
 
@@ -45,7 +45,7 @@ local _endpoint = am.app.get_configuration("SIGNER_ENDPOINT", "127.0.0.1:20090")
 local _signerAddr = _endpoint:match('([%d%.:]*):') or "127.0.0.1"
 local _signerPort = _endpoint:match('[%d%.:]*:(%d*)') or "20090"
 
-local TEZOS_LOG_LEVEL = am.app.get_configuration("TEZOS_LOG_LEVEL", "info")
+local MAVRYK_LOG_LEVEL = am.app.get_configuration("MAVRYK_LOG_LEVEL", "info")
 
 am.app.set_model(
     {
@@ -54,7 +54,7 @@ am.app.set_model(
         SIGNER_PORT = _signerPort,
         SIGNER_ENDPOINT = _endpoint,
         LOCAL_RPC_PORT = am.app.get_configuration("LOCAL_RPC_PORT", "8732"),
-        SIGNER_LOG_LEVEL = TEZOS_LOG_LEVEL
+        SIGNER_LOG_LEVEL = MAVRYK_LOG_LEVEL
     },
     { merge = true, overwrite = true }
 )

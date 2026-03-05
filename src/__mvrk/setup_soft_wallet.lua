@@ -17,7 +17,7 @@ local warning_message = [[
 
 Warning: Insecure Baking/Validating with Soft Wallet
 
-Using a soft wallet for baking or validating Tezos blocks is not secure. This method was introduced solely for testing purposes. For production use, always employ a more secure signing method, such as hardware wallets or remote signers, to ensure the integrity and security of your operations.
+Using a soft wallet for baking or validating Mavryk blocks is not secure. This method was introduced solely for testing purposes. For production use, always employ a more secure signing method, such as hardware wallets or remote signers, to ensure the integrity and security of your operations.
 
 To continue, type 'I understand the risks!' and press Enter.
 ]]
@@ -31,8 +31,8 @@ if response ~= "I understand the risks!" then
 end
 
 local handlers = {
-    ["generate"] = require("__xtz.soft.generate"),
-    ["import-key"] = require("__xtz.soft.import")
+    ["generate"] = require("__mvrk.soft.generate"),
+    ["import-key"] = require("__mvrk.soft.import")
 }
 
 for k, v in pairs(handlers) do
