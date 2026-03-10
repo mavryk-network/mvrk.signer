@@ -4,9 +4,9 @@ local function add_udev_rules()
 	local user = am.app.get("user", "root")
 	ami_assert(type(user) == "string", "User not specified...", EXIT_INVALID_CONFIGURATION)
 
-	local ok, userPlugin = am.plugin.get("user")
-	if not ok then
-		log_error("Failed to load user plugin!")
+	local userPlugin, err = am.plugin.get("user")
+	if not userPlugin then
+		log_error("Failed to load user plugin!", err)
 		return
 	end
 	ami_assert(userPlugin.add_into_group(user, "plugdev"), "Failed to add user '" .. user .. "' to plugdev")
