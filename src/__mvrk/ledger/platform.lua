@@ -14,7 +14,7 @@ local function add_udev_rules()
 	local tmpFile = os.tmpname()
 	local udevRulesUrl =
 	"https://raw.githubusercontent.com/alis-is/udev-rules/f15dc1eb83a4f3c666f58c12a93c45c6fca3a004/add_udev_rules.sh"
-	local ok, error = net.safe_download_file(udevRulesUrl, tmpFile, { followRedirects = true })
+	local ok, error = net.download_file(udevRulesUrl, tmpFile, { follow_redirects = true })
 	if not ok then
 		fs.remove(tmpFile)
 		ami_error("Failed to download: " .. tostring(error))

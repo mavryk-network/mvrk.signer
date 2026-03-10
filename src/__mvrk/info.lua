@@ -71,12 +71,12 @@ local function load_public_keys()
 	---@type table<string, PublicKey>
 	local public_keys = {}
 
-	local ok, pubkey_hashs_file = fs.safe_read_file(path.combine(_homedir, ".mavryk-signer/public_key_hashs"))
-	if not ok then
+	local pubkey_hashs_file, err = fs.read_file(path.combine(_homedir, ".mavryk-signer/public_key_hashs"))
+	if not pubkey_hashs_file then
 		return false, "failed to read public_key_hashs file"
 	end
-	local ok, pubkey_hashs = hjson.safe_parse(pubkey_hashs_file)
-	if not ok then
+	local pubkey_hashs, err = hjson.parse(pubkey_hashs_file)
+	if not pubkey_hashs then
 		return false, "failed to parse public_key_hashs file"
 	end
 
@@ -87,12 +87,12 @@ local function load_public_keys()
 		pkhs[name] = pkh
 	end
 
-	local ok, pubkeys_file = fs.safe_read_file(path.combine(_homedir, ".mavryk-signer/public_keys"))
-	if not ok then
+	local pubkeys_file, err = fs.read_file(path.combine(_homedir, ".mavryk-signer/public_keys"))
+	if not pubkeys_file then
 		return false, "failed to read public_keys file"
 	end
-	local ok, pubkeys = hjson.safe_parse(pubkeys_file)
-	if not ok then
+	local pubkeys, err = hjson.parse(pubkeys_file)
+	if not pubkeys then
 		return false, "failed to parse public_keys file"
 	end
 	for _, wallet in ipairs(pubkeys) do

@@ -1,4 +1,4 @@
-local _ok, _error = fs.safe_mkdirp("data")
+local _ok, _error = fs.mkdirp("data")
 ami_assert(_ok, "Failed to create data directory - " .. tostring(_error) .. "!")
 
 local backend = am.app.get_configuration("backend", os.getenv("ASCEND_SERVICES") ~= nil and "ascend" or "systemd")

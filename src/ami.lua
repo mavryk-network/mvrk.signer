@@ -214,10 +214,10 @@ return {
                 }
             },
             action = function(_options, _, _, _)
-                local _ok, _pkhFile = fs.safe_read_file("data/.mavryk-client/public_key_hashs")
-                assert(_ok, "Failed to read 'public_key_hashes' file!")
-                local _ok, _pkh = hjson.safe_parse(_pkhFile)
-                assert(_ok, "Failed to parse 'public_key_hashes' file!")
+                local _pkhFile, _err = fs.read_file("data/.mavryk-client/public_key_hashs")
+                assert(_pkhFile, "Failed to read 'public_key_hashes' file!")
+                local _pkh, _err = hjson.parse(_pkhFile)
+                assert(_pkh, "Failed to parse 'public_key_hashes' file!")
                 for _, v in ipairs(_pkh) do
                     if v.name == (_options.alias or "baker") then
                         print(v.value)
@@ -272,12 +272,12 @@ return {
             description = "ami 'about' sub command",
             summary = 'Prints information about application',
             action = function(_options, _, _, _)
-                local _ok, _aboutFile = fs.safe_read_file('__mvrk/about.hjson')
-                ami_assert(_ok, 'Failed to read about file!', EXIT_APP_ABOUT_ERROR)
+                local _aboutFile, _err = fs.read_file('__mvrk/about.hjson')
+                ami_assert(_aboutFile, 'Failed to read about file!', EXIT_APP_ABOUT_ERROR)
 
-                local _ok, _about = hjson.safe_parse(_aboutFile)
+                local _about, _err = hjson.parse(_aboutFile)
+                ami_assert(_about, 'Failed to parse about file!', EXIT_APP_ABOUT_ERROR)
                 _about['App Type'] = am.app.get({ 'type', 'id' }, am.app.get('type'))
-                ami_assert(_ok, 'Failed to parse about file!', EXIT_APP_ABOUT_ERROR)
                 if am.options.OUTPUT_FORMAT == 'json' then
                     print(hjson.stringify_to_json(_about, { indent = false, skipkeys = true }))
                 else
