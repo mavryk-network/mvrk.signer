@@ -1,6 +1,6 @@
 {
     "id": "mvrk.signer",
-    "version" : "0.25.1+20.3",
+    "version" : "0.25.2+20.3",
     "dependencies": [
         { "id":"mvrk.base" }
     ]
