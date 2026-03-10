@@ -1,5 +1,5 @@
 [Unit]
-Description={{{ID}}} baker service
+Description={{{ID}}} signer service
 After=network.target
 StartLimitIntervalSec=0
 
@@ -15,13 +15,9 @@ Environment="HOME={{{ROOT_DIR}}}/data"
 Environment=MAVRYK_LOG='* -> {{{model.SIGNER_LOG_LEVEL}}}'
 ExecStart={{{ROOT_DIR}}}/bin/signer launch http signer -a {{{model.SIGNER_ADDR}}} -p {{{model.SIGNER_PORT}}} {{{configuration.STARTUP_SIGNER_ARGS__CLI_ARGS}}}
 
-{{#model.SERVICE_CONFIGURATION_SIGNER__ARRAY}}
+{{#model.SERVICE_CONFIGURATION__ARRAY}}
 {{{key}}}={{{value}}}
-{{/model.SERVICE_CONFIGURATION_SIGNER__ARRAY}}
-
-{{#configuration.SERVICE_CONFIGURATION_SIGNER__ARRAY}}
-{{{key}}}={{{value}}}
-{{/configuration.SERVICE_CONFIGURATION_SIGNER__ARRAY}}
+{{/model.SERVICE_CONFIGURATION__ARRAY}}
 
 [Install]
 WantedBy=default.target

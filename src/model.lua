@@ -26,6 +26,9 @@ if _downlaodUrls == nil then
 end
 
 am.app.set_model({
+        SYSTEM_OS = _platform.OS,
+        SYSTEM_DISTRO = _platform.DISTRO,
+        SYSTEM_TYPE = _platform.SYSTEM_TYPE,
 		DOWNLOAD_URLS = am.app.get_configuration("SOURCES", _downlaodUrls),
         REMOTE_SIGNER_PORT = am.app.get_configuration("REMOTE_SIGNER_PORT", "20090"),
         REMOTE_SSH_PORT = am.app.get_configuration("REMOTE_SSH_PORT", "22"),
