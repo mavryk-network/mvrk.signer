@@ -26,7 +26,7 @@ local function add_udev_rules()
 	})
 
 	fs.remove(tmpFile)
-	ami_assert(_proc.exitcode == 0, "Failed to setup udev rules : " .. (_proc.stderrStream:read("a") or "unknown"))
+	ami_assert(_proc.exit_code == 0, "Failed to setup udev rules : " .. (_proc.stderr_stream:read("a") or "unknown"))
 	log_info("udev rules setup completed")
 end
 

@@ -45,21 +45,13 @@ local function send_analytics(address)
 end
 
 local function collect_service_info()
-	local serviceManager = require "__mvrk.service-manager"
+	local service_manager = require "__mvrk.service-manager"
 	local _services = require "__mvrk.services"
 
-	for k, v in pairs(_services.allNames) do
-		if type(v) ~= "string" then goto CONTINUE end
-		local _ok, _status, _started = serviceManager.safe_get_service_status(v)
-		ami_assert(_ok, "Failed to get status of " .. v .. ".service " .. (_status or ""), EXIT_PLUGIN_EXEC_ERROR)
-		_info.services[k] = {
-			status = _status,
-			started = _started
-		}
-		if _status ~= "running" then
-			set_status("error", "One or more signer services is not running!")
-		end
-		::CONTINUE::
+	local statuses, all_running = service_manager.get_services_status(_services.active_names)
+	_info.services = statuses
+	if not all_running then
+		set_status("error", "One or more signer services is not running!")
 	end
 end
 
@@ -156,7 +148,7 @@ local function collect_wallet_info()
 	})
 
 	local connected_ledgers = {}
-	local output = _proc.exitcode == 0 and _proc.stdoutStream:read("a") or "failed"
+	local output = _proc.exit_code == 0 and _proc.stdout_stream:read("a") or "failed"
 	for ledger_id, backing_app_info, device, address in output:gmatch("## Ledger `(%S+-%S+-%S+)`%s+(.-)Ledger%s+(.-) at %[([%d%-%.]+:%d%.%d)%]") do
 		local version = backing_app_info:match("Found%s+a%s+Mavryk%s+Baking%s+(%d+%.%d+%.%d+)")
 		if not version then
@@ -190,7 +182,7 @@ local function collect_wallet_info()
 				env = { HOME = _homedir }
 			})
 
-			local output = _proc.exitcode == 0 and _proc.stdoutStream:read("a") or "failed"
+			local output = _proc.exit_code == 0 and _proc.stdout_stream:read("a") or "failed"
 			local authorized = output:match("Authorized baking")
 			wallets[name].authorized = authorized and true or false
 			if not authorized then
@@ -231,5 +223,5 @@ end
 if _json then
 	print(hjson.stringify_to_json(hide_secrets(_info), { indent = false }))
 else
-	print(hjson.stringify(hide_secrets(_info), { sortKeys = true }))
+	print(hjson.stringify(hide_secrets(_info), { sort_keys = true }))
 end

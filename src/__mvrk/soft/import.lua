@@ -29,7 +29,7 @@ local function setup(options)
 			wait = true,
 			env = { HOME = homedir }
 		})
-	ami_assert(_proc.exitcode == 0, "Failed to import key to signer!")
+	ami_assert(_proc.exit_code == 0, "Failed to import key to signer!")
 
 	local protocol = "ProtoALphaALphaALphaALphaALphaALphaALphaALphaDdp3zK"
 	if type(options.protocol) == "string" then
@@ -43,7 +43,7 @@ local function setup(options)
 			wait = true,
 			env = { HOME = homedir }
 		})
-	ami_assert(_proc.exitcode == 0, "Failed to import key to client!")
+	ami_assert(_proc.exit_code == 0, "Failed to import key to client!")
 
 	log_success("Soft-wallet key successfully imported.")
 end

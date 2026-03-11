@@ -3,7 +3,7 @@ local _options, _, args, _ = ...
 local _args = table.map(args, function(v) return v.arg end)
 local _services = require("__mvrk.services")
 
-local _toCheck = table.values(_services.allNames)
+local _toCheck = table.values(_services.active_names)
 if #_args > 0 then
     _toCheck = {}
     for _, v in ipairs(_args) do

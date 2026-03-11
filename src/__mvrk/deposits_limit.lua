@@ -27,7 +27,7 @@ local _proc = proc.spawn("bin/client", _args, {
 })
 
 log_info("Please confirm adjusting of deposit limits...")
-local _stderr = _proc.stderrStream:read("a") or ""
-ami_assert(_proc.exitcode == 0, "Failed to set/unset deposits limit: " .. _stderr)
+local _stderr = _proc.stderr_stream:read("a") or ""
+ami_assert(_proc.exit_code == 0, "Failed to set/unset deposits limit: " .. _stderr)
 
 log_success("Deposits limit adjusted.")

@@ -38,7 +38,7 @@ local function setup(options)
             wait = true,
             env = { HOME = homedir }
         })
-    ami_assert(_proc.exitcode == 0, "Failed to generate keys!")
+    ami_assert(_proc.exit_code == 0, "Failed to generate keys!")
 
     -- get private key
     -- show address <alias> -S
@@ -52,7 +52,7 @@ local function setup(options)
     -- Hash: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     -- Public Key:  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     -- Secret Key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    local output = _proc.stdoutStream:read("a") or ""
+    local output = _proc.stdout_stream:read("a") or ""
     local secret_key = output:match("Secret Key: (.+)")
 
     -- import into client
@@ -63,7 +63,7 @@ local function setup(options)
             wait = true,
             env = { HOME = homedir }
         })
-    ami_assert(_proc.exitcode == 0, "Failed to import key to client!")
+    ami_assert(_proc.exit_code == 0, "Failed to import key to client!")
 
     log_success("Soft-wallet keys successfully generated.")
 end

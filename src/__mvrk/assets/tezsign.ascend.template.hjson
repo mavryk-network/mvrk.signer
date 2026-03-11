@@ -1,0 +1,12 @@
+{
+    executable: {{{ROOT_DIR}}}/bin/mavsign
+    args: [
+		{{{ROOT_DIR}}}/__bin_generated/mavsign.service.sh
+    ]
+    environment: {
+    }
+    restart: always
+    restart_delay: 3
+    stop_timeout: 300
+    user: {{{model.MAVSIGN_USER}}}
+}

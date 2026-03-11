@@ -11,7 +11,10 @@ end
 
 local _downlaodUrls = nil
 
-local _downloadLinks = hjson.parse(fs.read_file("__mvrk/sources.hjson"))
+local _sourcesFile, _sourcesErr = fs.read_file("__mvrk/sources.hjson")
+ami_assert(_sourcesFile, "failed to read sources.hjson - " .. tostring(_sourcesErr))
+local _downloadLinks, _linksErr = hjson.parse(_sourcesFile)
+ami_assert(_downloadLinks, "failed to parse sources.hjson - " .. tostring(_linksErr))
 
 if _platform.OS == "unix" then
 	_downlaodUrls = _downloadLinks["linux-x86_64"]

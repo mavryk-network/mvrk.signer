@@ -8,5 +8,5 @@ local _proc = proc.spawn("bin/client", { "register", "key", "baker", "as", "dele
 	wait = true,
 	env = { HOME = _homedir }
 })
-ami_assert(_proc.exitcode == 0, "Failed to register key as delegate!")
+ami_assert(_proc.exit_code == 0, "Failed to register key as delegate!")
 log_success("Keys successfully registered as delegate.")

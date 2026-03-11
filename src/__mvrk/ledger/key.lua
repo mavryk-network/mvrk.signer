@@ -25,8 +25,8 @@ local function setup(options)
 			env = { HOME = homedir }
 		})
 
-		ami_assert(_proc.exitcode == 0, "Failed to get connected ledgers: " .. (_proc.stderrStream:read("a") or "unknown"))
-		local _output = _proc.stdoutStream:read("a") or ""
+		ami_assert(_proc.exit_code == 0, "Failed to get connected ledgers: " .. (_proc.stderr_stream:read("a") or "unknown"))
+		local _output = _proc.stdout_stream:read("a") or ""
 		ledgerId = _output:match("## Ledger `(.-)`")
 		ami_assert(ledgerId, "No connected ledgers found!", EXIT_APP_INTERNAL_ERROR)
 		log_info("Using ledger id: " .. ledgerId)
@@ -53,7 +53,7 @@ local function setup(options)
 			wait = true,
 			env = { HOME = homedir }
 		})
-	ami_assert(_proc.exitcode == 0, "Failed to import key to signer!")
+	ami_assert(_proc.exit_code == 0, "Failed to import key to signer!")
 
 	local protocol = "ProtoALphaALphaALphaALphaALphaALphaALphaALphaDdp3zK"
 	if type(options.protocol) == "string" then
@@ -69,7 +69,7 @@ local function setup(options)
 			wait = true,
 			env = { HOME = homedir }
 		})
-	ami_assert(_proc.exitcode == 0, "Failed to import key to client!")
+	ami_assert(_proc.exit_code == 0, "Failed to import key to client!")
 
 	log_success("Ledger key successfully imported.")
 end

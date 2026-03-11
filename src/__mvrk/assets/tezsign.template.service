@@ -1,0 +1,25 @@
+[Unit]
+Description={{{ID}}} mavsign service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+User={{{model.MAVSIGN_USER}}}
+Group={{{model.MAVSIGN_USER}}}
+RestartSec=3
+
+Type=simple
+Restart=always
+
+ExecStart={{{ROOT_DIR}}}/__bin_generated/mavsign.service.sh
+
+{{#model.SERVICE_CONFIGURATION_MAVSIGN__ARRAY}}
+{{{key}}}={{{value}}}
+{{/model.SERVICE_CONFIGURATION_MAVSIGN__ARRAY}}
+
+{{#configuration.SERVICE_CONFIGURATION_MAVSIGN__ARRAY}}
+{{{key}}}={{{value}}}
+{{/configuration.SERVICE_CONFIGURATION_MAVSIGN__ARRAY}}
+
+[Install]
+WantedBy=default.target

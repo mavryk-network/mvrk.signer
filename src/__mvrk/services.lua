@@ -21,40 +21,29 @@ for k, _ in pairs(tunnelServices) do
 	tunnelServiceNames[k:sub((#(appId .. "-mvrk-") + 1))] = k
 end
 
-local all = util.clone(signerServices)
-local allNames = util.clone(signerServiceNames)
+local activeServices = util.clone(signerServices)
+local activeNames = util.clone(signerServiceNames)
 
 local nodeAddr = am.app.get_model("REMOTE_NODE")
 if type(nodeAddr) == "string" then
 	for k, v in pairs(tunnelServiceNames) do
-		allNames[k] = v
+		activeNames[k] = v
 	end
 	for k, v in pairs(tunnelServices) do
-		all[k] = v
+		activeServices[k] = v
 	end
 end
 
--- includes potential residues
-local function _remove_all_services()
-	local serviceManager = require"__mvrk.service-manager"
-
-	local all = util.merge_arrays(table.values(signerServiceNames), table.values(tunnelServices))
-	all = util.merge_arrays(all, possibleResidue)
-
-	for _, service in ipairs(all) do
-		if type(service) ~= "string" then goto CONTINUE end
-		local _ok, _error = serviceManager.safe_remove_service(service)
-		if not _ok then
-			ami_error("Failed to remove " .. service .. ": " .. (_error or ""))
-		end
-		::CONTINUE::
-	end
-end
+---@type string[]
+local cleanupNames = {}
+cleanupNames = util.merge_arrays(cleanupNames, table.values(signerServiceNames))
+cleanupNames = util.merge_arrays(cleanupNames, table.values(tunnelServiceNames))
+cleanupNames = util.merge_arrays(cleanupNames, possibleResidue)
 
 return {
 	signerServiceId = signerServiceId,
-	all = all,
-	allNames = allNames,
 	signerServiceNames = signerServiceNames,
-	remove_all_services = _remove_all_services
+	active = activeServices,
+	active_names = activeNames,
+	cleanup_names = cleanupNames,
 }
