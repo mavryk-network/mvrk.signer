@@ -248,7 +248,7 @@ return {
                     type = "string"
                 }
             },
-            type = "no-command",
+            type = "namespace",
             action = '__mvrk/log.lua',
             contextFailExitCode = EXIT_APP_INTERNAL_ERROR
         },
@@ -267,6 +267,17 @@ return {
             },
             action = '__mvrk/deposits_limit.lua',
             contextFailExitCode = EXIT_APP_INTERNAL_ERROR
+        },
+        version = {
+            description = "ami 'version' sub command",
+            summary = "Prints versions of binaries used by the app",
+            action = "__mvrk/version.lua",
+            options = {
+                all = {
+                    description = "Print version and all related versions - dependencies, binaries...",
+                    type = "boolean"
+                }
+            }
         },
         about = {
             description = "ami 'about' sub command",
